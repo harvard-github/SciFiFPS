@@ -2,23 +2,17 @@ using UnityEngine;
 
 public class MovementController : MonoBehaviour
 {
-    public float walkSpeed = 5.0f; // the movement speed when walking
-    public float runSpeed = 10.0f; // the movement speed when running
-    public float jumpForce = 5.0f; // the force applied when jumping
-    public float gravity = 9.81f; // the gravity applied to the character
-    public float groundCheckDistance = 0.2f; // the distance to check if the character is on the ground
-    public LayerMask groundMask; // a layer mask to specify what counts as ground
+    // ...
 
-    private CharacterController controller;
-    private Vector3 velocity;
-    private bool isGrounded;
-
-    void Start()
+    private void Update()
     {
-        controller = GetComponent<CharacterController>();
+        // Call the methods that handle movement and other functionality
+        HandleMovement();
+        HandleShooting();
+        // Add other methods as needed
     }
 
-    void Update()
+    private void HandleMovement()
     {
         // Check if the character is on the ground
         isGrounded = Physics.CheckSphere(transform.position, groundCheckDistance, groundMask);
@@ -47,5 +41,10 @@ public class MovementController : MonoBehaviour
         // Apply gravity to the character
         velocity.y -= gravity * Time.deltaTime;
         controller.Move(velocity * Time.deltaTime);
+    }
+
+    private void HandleShooting()
+    {
+        // Add code to handle shooting here
     }
 }
