@@ -1,0 +1,52 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class PlayerController : MonoBehaviour
+{
+    public float moveSpeed;
+    public float jumpForce;
+    public float doubleJumpForce;
+    public Transform groundCheck;
+    public LayerMask whatIsGround;
+
+    private Rigidbody2D rb;
+    private bool isGrounded;
+    private bool canDoubleJump;
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        rb = GetComponent<Rigidbody2D>();
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        // Check if player is on the ground
+        isGrounded = Physics2D.OverlapCircle(groundCheck.position, 0.2f, whatIsGround);
+
+        // Allow player to jump if on the ground or able to double jump
+        if (isGrounded)
+        {
+            canDoubleJump = true;
+        }
+
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            if (isGrounded)
+            {
+                rb.velocity = new Vector2(rb.velocity.x, jumpForce);
+            }
+            else if (canDoubleJump)
+            {
+                rb.velocity = new Vector2(rb.velocity.x, doubleJumpForce);
+                canDoubleJump = false;
+            }
+        }
+
+        // Move player left or right
+        float moveInput = Input.GetAxis("Horizontal");
+        rb.velocity = new Vector2(moveInput * moveSpeed, rb.velocity.y);
+    }
+}
